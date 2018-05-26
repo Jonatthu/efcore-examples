@@ -61,20 +61,10 @@ namespace ConsoleApp4
             using (var dbContext = new TestDbContext(options))
             {
 
-                var watch = new Stopwatch();
-
-                // clean up
-                GC.Collect();
-                GC.WaitForPendingFinalizers();
-                GC.Collect();
-
                 bool includeId = true;
                 bool includeFirstName = false;
                 bool includeLastName = false;
 
-                Stopwatch stopwatch = new Stopwatch();
-
-                stopwatch.Start();
                 var userParameter = Expression.Parameter(typeof(User), "x");
                 var bindings = new List<MemberAssignment>();
 
@@ -99,15 +89,6 @@ namespace ConsoleApp4
                 var memberInit = Expression.MemberInit(Expression.New(typeof(User)), bindings);
                 var lambda = Expression.Lambda<Func<User, User>>(memberInit, userParameter);
 
-                //var results = dbContext.User.Select(lambda).ToList();
-                stopwatch.Stop();
-                Console.WriteLine($"First Time: {stopwatch.ElapsedTicks}");
-
-                stopwatch.Start();
-                //results = dbContext.User.Select(x => new User { FirstName = x.FirstName, LastName = x.LastName, Id = x.Id }).ToList();
-                stopwatch.Stop();
-
-
 				int[] blogsCountUserIds = dbContext.Blog
 					.Select(x => new Blog { UserId = x.UserId})
 					.Where(x => new[] { 44, 5, 546, 99 }.Contains(x.Id))
@@ -118,17 +99,43 @@ namespace ConsoleApp4
 				if (blogsCountUserIds.Length == 0)
 					blogsCountUserIds = new [] {1, 3};
 
-                var county = dbContext.User.AsNoTracking()
-                    .Select(lambda)
-					.AsNoTracking()
-                    //.Where(x => blogsCountUserIds.Contains(x.Id))
+
+
+
+				// Works
+				var county = dbContext.User
 					.Where(x => 
-						x.Blogs.Count() > 0
+						new []{ 44, 5, 546, 99 }.Contains(x.Blogs.Count())
+					)
+                    .ToList();
+
+				// Works
+				county = dbContext.User
+                    .Select(lambda)
+					.Where(x => 
+						blogsCountUserIds.Contains(x.Id)
+					)
+                    .ToList();
+
+				// Is not working
+                county = dbContext.User
+                    .Select(lambda)
+					.Where(x => 
+						new []{ 44, 5, 546, 99 }.Contains(x.Blogs.Count())
+					)
+                    .ToList();
+
+				// Is Not Working 
+                county = dbContext.User
+                    .Select(x => new User {
+						Id = x.Id
+					})
+					.Where(x => 
+						new []{ 44, 5, 546, 99 }.Contains(x.Blogs.Count())
 					)
                     .ToList();
 
 
-                Console.WriteLine($"First Time: {stopwatch.ElapsedTicks}");
             }
 
             connection.Close();
