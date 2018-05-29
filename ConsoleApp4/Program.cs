@@ -62,7 +62,7 @@ namespace ConsoleApp4
             {
 
                 bool includeId = false;
-                bool includeFirstName = true;
+                bool includeFirstName = false;
                 bool includeLastName = true;
 
                 var userParameter = Expression.Parameter(typeof(User), "x");
@@ -89,48 +89,12 @@ namespace ConsoleApp4
                 var memberInit = Expression.MemberInit(Expression.New(typeof(User)), bindings);
                 var lambda = Expression.Lambda<Func<User, User>>(memberInit, userParameter);
 
-				int[] blogsCountUserIds = dbContext.Blog
-					.Select(x => new Blog { UserId = x.UserId})
-					.Where(x => new[] { 44, 5, 546, 99 }.Contains(x.Id))
-					.ToList()
-					.Select(x => x.UserId)
-					.ToArray();
-
-				if (blogsCountUserIds.Length == 0)
-					blogsCountUserIds = new [] {1, 3};
-
-
-
-
-				// Works
-				var county = dbContext.User
-					.Where(x => 
-						new []{ 44, 5, 546, 99 }.Contains(x.Blogs.Count())
+				var result = dbContext.User
+					.Where(x =>
+						new[] { 44, 5, 546, 99 }.Contains(x.Blogs.Count())
 					)
-                    .ToList();
-
-				// Works
-				county = dbContext.User
-                    .Select(lambda)
-					.Where(x => 
-						blogsCountUserIds.Contains(x.Id)
-					)
-                    .ToList();
-
-				// Is not working
-                county = dbContext.User
-					.Where(x => 
-						new []{ 44, 5, 546, 99 }.Contains(x.Blogs.Count())
-					)
-                    .Select(lambda)
-                    .ToList();
-
-				// Is Not Working 
-                county = dbContext.User
-					.Where(x => 
-						new []{ 44, 5, 546, 99 }.Contains(x.Blogs.Count())
-					)
-                    .Select(x => new User {
+					.Where(x => x.Blogs.Where(c => c.Flod == 1).Any())
+					.Select(x => new User {
 						Id = x.Id
 					})
                     .ToList();
