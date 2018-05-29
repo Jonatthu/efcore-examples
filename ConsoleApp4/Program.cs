@@ -61,9 +61,9 @@ namespace ConsoleApp4
             using (var dbContext = new TestDbContext(options))
             {
 
-                bool includeId = true;
-                bool includeFirstName = false;
-                bool includeLastName = false;
+                bool includeId = false;
+                bool includeFirstName = true;
+                bool includeLastName = true;
 
                 var userParameter = Expression.Parameter(typeof(User), "x");
                 var bindings = new List<MemberAssignment>();
@@ -119,20 +119,20 @@ namespace ConsoleApp4
 
 				// Is not working
                 county = dbContext.User
-                    .Select(lambda)
 					.Where(x => 
 						new []{ 44, 5, 546, 99 }.Contains(x.Blogs.Count())
 					)
+                    .Select(lambda)
                     .ToList();
 
 				// Is Not Working 
                 county = dbContext.User
-                    .Select(x => new User {
-						Id = x.Id
-					})
 					.Where(x => 
 						new []{ 44, 5, 546, 99 }.Contains(x.Blogs.Count())
 					)
+                    .Select(x => new User {
+						Id = x.Id
+					})
                     .ToList();
 
 
