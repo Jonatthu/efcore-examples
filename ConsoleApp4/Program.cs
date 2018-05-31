@@ -1,4 +1,6 @@
-﻿using Microsoft.Data.Sqlite;
+﻿using Microsoft.CodeAnalysis;
+using Microsoft.CodeAnalysis.CSharp;
+using Microsoft.Data.Sqlite;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Logging.Console;
@@ -102,12 +104,34 @@ namespace ConsoleApp4
 
             }
 
-            connection.Close();
+
+			var service = $@"
+				namespace Hello
+				{{
+					public class HelloThere
+					{{
+						#region Hello
+							// Hello
+									#endregion
+
+						#region				HelloThere
+						// HelloThere
+		#endregion
+					}}
+				}}
+			";
+
+			var tree = CSharpSyntaxTree.ParseText(service);
+			var root = tree.GetRoot()
+				.NormalizeWhitespace(indentation: "	");
+
+			var ret = root.ToFullString();
+
+			connection.Close();
 
         }
 
-
-        public class AuthValidationResult
+		public class AuthValidationResult
         {
 
             public static AuthValidationResult IsValid => new AuthValidationResult();
