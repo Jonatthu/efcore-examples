@@ -94,4 +94,60 @@ namespace ConsoleApp4
 	}
 
 
+	public class Blog
+	{
+		public string Title { get; set; }
+		public string Message { get; set; }
+
+		public override int GetHashCode()
+		{
+			unchecked
+			{
+				int hashCode = (Title != null ? Title.GetHashCode() : 0);
+				hashCode = (hashCode * 397) ^ (Message != null ? Message.GetHashCode() : 0);
+				return hashCode;
+			}
+		}
+	}
+
+
+	public partial class Entity
+	{
+		public int? Id { get; set; }
+		public string Name { get; set; }
+		public Blog Blog { get; set; }
+		public IEnumerable<int> BlogIds { get; set; }
+		public IEnumerable<Blog> MyBlogs { get; set; }
+	}
+
+
+	public partial class Entity
+	{
+		public override int GetHashCode()
+		{
+			unchecked
+			{
+				int hashCode = Id.HasValue ? Id.Value.GetHashCode() : 0;
+				hashCode = (hashCode * 397) ^ (Name != null ? Name.GetHashCode() : 0);
+				hashCode = (hashCode * 397) ^ (Blog != null ? Blog.GetHashCode() : 0);
+
+				if (BlogIds != null)
+				{
+					foreach (var item in BlogIds)
+					{
+						hashCode = (hashCode * 397) ^ item.GetHashCode();
+					}
+				}
+
+				if (MyBlogs != null)
+				{
+					foreach (var item in MyBlogs)
+					{
+						hashCode = (hashCode * 397) ^ item.GetHashCode();
+					}
+				}
+				return hashCode;
+			}
+		}
+	}
 }

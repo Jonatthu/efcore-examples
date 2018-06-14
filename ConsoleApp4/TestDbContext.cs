@@ -5,7 +5,7 @@ namespace ConsoleApp4
 	public class TestDbContext : DbContext
 	{
 		public DbSet<User> User { get; set; }
-		public DbSet<Blog> Blog { get; set; }
+		public DbSet<Blogg> Blog { get; set; }
 
 		public TestDbContext()
 		{

@@ -1,6 +1,6 @@
 namespace ConsoleApp4
 {
-    public class Blog
+    public class Blogg
     {
         public int Id { get; set; }
         public int Flod { get; set; }

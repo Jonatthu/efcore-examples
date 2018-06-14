@@ -26,7 +26,63 @@ namespace ConsoleApp4
         static void Main(string[] args)
         {
 
-            var connection = new SqliteConnection("DataSource=:memory:");
+
+			var request = new Entity
+			{
+				Id = 1,
+				Blog = new Blog
+				{
+					Message = "Hello"
+				},
+				BlogIds = new[] { 1, 2, 3 },
+				MyBlogs = new[]
+				{
+					new Blog
+					{
+						Title = "Hello"
+					}
+				}
+			};
+			var request1 = new Entity
+			{
+				Id = 1,
+				Blog = new Blog
+				{
+					Message = "Hello"
+				},
+				BlogIds = new [] {1 , 2, 3},
+				MyBlogs = new[]
+				{
+					new Blog
+					{
+						Title = "Hello0"
+					}
+				}
+			};
+			var request2 = new Entity
+			{
+				Id = 2,
+				Blog = new Blog
+				{
+					Message = "Hello"
+				},
+				BlogIds = new[] { 1, 2, 3 },
+				MyBlogs = new[]
+				{
+					new Blog
+					{
+						Title = "Hello"
+					}
+				}
+			};
+
+			int hash = request.GetHashCode();
+			int hash1 = request1.GetHashCode();
+			int hash2 = request2.GetHashCode();
+
+
+
+			var connection = new SqliteConnection("DataSource=:memory:");
             connection.Open();
 
             var options = new DbContextOptionsBuilder<TestDbContext>()

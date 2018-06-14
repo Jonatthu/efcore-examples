@@ -11,6 +11,6 @@ namespace ConsoleApp4
 		public string LastName { get; set; }
 		public string UserName { get; set; }
 
-		public List<Blog> Blogs { get; set; }
+		public List<Blogg> Blogs { get; set; }
 	}
 }
