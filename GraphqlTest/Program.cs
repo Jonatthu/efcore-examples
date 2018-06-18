@@ -25,14 +25,22 @@ namespace GraphqlTest
 			{
 				_.Schema = schema;
 				_.Query = @"
-                query {
-                  droid {
-                    id,
-					name(isFullName: ""OfCourseIwantFullName""),
-					lastName
-                  }
-                }
-              ";
+				query {
+					droid(
+						fetch: { 
+							first: 10, 
+							skip: 12, 
+							filter: { 
+							} 
+						}
+					) 
+					{
+						id,
+						name(isFullName: ""OfCourseIwantFullName""),
+						lastName
+					}
+				}
+			";
 			}).ConfigureAwait(false);
 
 			var json = new DocumentWriter(indent: true).Write(result);
@@ -80,11 +88,14 @@ namespace GraphqlTest
 
 			Field<DroidType>()
 				.Name("droid")
-				.Argument<StringGraphType>("id", "The key")
+				.Argument<FetchRequestType>("fetch", "The fetch request object")
 				.Resolve(context =>
 				{
+					FetchRequest fetchRequest = context.GetArgument<FetchRequest>("fetch");
+
 					var selectedFields = context.SubFields.Keys;
 					context.SubFields.TryGetValue("name", out Field field);
+
 					var arguments = field.Arguments.ToList();
 					var isFullNameValue = arguments.First().Value.Value;
 					return new Droid { Id = "1", Name = "R2-D2" };
