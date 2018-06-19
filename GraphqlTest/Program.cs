@@ -31,12 +31,12 @@ namespace GraphqlTest
 							first: 10, 
 							skip: 12, 
 							filter: { 
-							} 
+							}
 						}
 					) 
 					{
 						id,
-						name(isFullName: ""OfCourseIwantFullName""),
+						name(isFullName: true, useMotherName: true),
 						lastName
 					}
 				}
@@ -65,17 +65,18 @@ namespace GraphqlTest
 			Field(x => x.Id)
 				.Description("The Id of the Droid.");
 
-			Field(x => x.Name, nullable: true)
+			Field(x => x.Name)
 				.Description("The name of the Droid.")
-				.Argument<StringGraphType>(name: "isFullName", description: "Determines if you want a full name.");
+				.Argument<BooleanGraphType>(name: "isFullName", description: "Determines if you want a full name.")
+				.Argument<BooleanGraphType>(name: "useMotherName", description: "Determines if you want a full name.");
 
-			Field(x => x.FirstName, nullable: true)
+			Field(x => x.FirstName)
 				.Description("The name of the Droid.");
 
-			Field(x => x.LastName, nullable: true)
+			Field(x => x.LastName)
 				.Description("The name of the Droid.");
 
-			Field(x => x.UserName, nullable: true)
+			Field(x => x.UserName)
 				.Description("The name of the Droid.");
 
 		}
@@ -86,20 +87,29 @@ namespace GraphqlTest
 		public StarWarsQuery()
 		{
 
-			Field<DroidType>()
+			Field<DroidType, Droid>()
 				.Name("droid")
 				.Argument<FetchRequestType>("fetch", "The fetch request object")
 				.Resolve(context =>
 				{
 					FetchRequest fetchRequest = context.GetArgument<FetchRequest>("fetch");
 
-					var selectedFields = context.SubFields.Keys;
-					context.SubFields.TryGetValue("name", out Field field);
+					fetchRequest.NamePropertyArguments = new NamePropertyArguments
+					{
+						IsFullName = (bool?)context.GetSubArgument("name", "isFullName"),
+						UseMotherName = (bool)context.GetSubArgument("name", "useMotherName")
+					};
 
-					var arguments = field.Arguments.ToList();
-					var isFullNameValue = arguments.First().Value.Value;
 					return new Droid { Id = "1", Name = "R2-D2" };
 				});
+		}
+	}
+
+	public static class GraphqlResoverContextExtensions
+	{
+		public static object GetSubArgument(this ResolveFieldContext<object> context, string subFieldName, string subFieldArgumentName)
+		{
+			return context.SubFields.TryGetValue(subFieldName, out Field field) ? (field.Arguments.FirstOrDefault(x => x.Name == subFieldArgumentName)?.Value.Value) : null;
 		}
 	}
 }

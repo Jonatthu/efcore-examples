@@ -9,7 +9,7 @@ namespace GraphqlTest
 	{
 		public FilterRequestType()
 		{
-			Name = "Filter";
+			Name = "filter";
 
 			Field(x => x.Search, nullable: true);
 
