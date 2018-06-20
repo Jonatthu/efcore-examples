@@ -14,7 +14,7 @@ namespace GraphqlTest
 			Field(x => x.Skip);
 
 			Field<FilterRequestType>()
-				.Name("filter")
+				.Name("Filter")
 				.Resolve(x => x.Source.Filter);
 		}
     }

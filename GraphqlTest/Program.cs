@@ -1,4 +1,5 @@
 ﻿using GraphQL;
+using GraphQL.Conversion;
 using GraphQL.Http;
 using GraphQL.Language.AST;
 using GraphQL.Types;
@@ -15,6 +16,14 @@ namespace GraphqlTest
 			Run().Wait();
 		}
 
+		public class PascalCaseFieldNameConverter : IFieldNameConverter
+		{
+			public string NameFor(string field, Type parentType)
+			{
+				return field.ToPascalCase();
+			}
+		}
+
 		private static async Task Run()
 		{
 			Console.WriteLine("Hello GraphQL!");
@@ -24,20 +33,21 @@ namespace GraphqlTest
 			var result = await new DocumentExecuter().ExecuteAsync(_ =>
 			{
 				_.Schema = schema;
+				_.FieldNameConverter = new PascalCaseFieldNameConverter();
 				_.Query = @"
 				query {
-					droid(
-						fetch: { 
-							first: 10, 
-							skip: 12, 
-							filter: { 
+					Droid(
+						Fetch: { 
+							First: 10, 
+							Skip: 12, 
+							Filter: { 
 							}
 						}
 					) 
 					{
-						id,
-						name(isFullName: true, useMotherName: true),
-						lastName
+						Id,
+						Name(IsFullName: true, UseMotherName: true),
+						LastName
 					}
 				}
 			";
@@ -67,8 +77,8 @@ namespace GraphqlTest
 
 			Field(x => x.Name)
 				.Description("The name of the Droid.")
-				.Argument<BooleanGraphType>(name: "isFullName", description: "Determines if you want a full name.")
-				.Argument<BooleanGraphType>(name: "useMotherName", description: "Determines if you want a full name.");
+				.Argument<BooleanGraphType>(name: "IsFullName", description: "Determines if you want a full name.")
+				.Argument<BooleanGraphType>(name: "UseMotherName", description: "Determines if you want a full name.");
 
 			Field(x => x.FirstName)
 				.Description("The name of the Droid.");
@@ -88,16 +98,16 @@ namespace GraphqlTest
 		{
 
 			Field<DroidType, Droid>()
-				.Name("droid")
-				.Argument<FetchRequestType>("fetch", "The fetch request object")
+				.Name("Droid")
+				.Argument<FetchRequestType>("Fetch", "The fetch request object")
 				.Resolve(context =>
 				{
-					FetchRequest fetchRequest = context.GetArgument<FetchRequest>("fetch");
+					FetchRequest fetchRequest = context.GetArgument<FetchRequest>("Fetch");
 
 					fetchRequest.NamePropertyArguments = new NamePropertyArguments
 					{
-						IsFullName = (bool?)context.GetSubArgument("name", "isFullName"),
-						UseMotherName = (bool)context.GetSubArgument("name", "useMotherName")
+						IsFullName = (bool?)context.GetSubArgument("Name", "IsFullName"),
+						UseMotherName = (bool)context.GetSubArgument("Name", "UseMotherName")
 					};
 
 					return new Droid { Id = "1", Name = "R2-D2" };
@@ -109,7 +119,21 @@ namespace GraphqlTest
 	{
 		public static object GetSubArgument(this ResolveFieldContext<object> context, string subFieldName, string subFieldArgumentName)
 		{
-			return context.SubFields.TryGetValue(subFieldName, out Field field) ? (field.Arguments.FirstOrDefault(x => x.Name == subFieldArgumentName)?.Value.Value) : null;
+			if (context.SubFields.TryGetValue(subFieldName, out Field field))
+			{
+				var value = field.Arguments.FirstOrDefault(x => x.Name == subFieldArgumentName);
+
+				if (value == null)
+				{
+					throw new Exception($@"Field ""{subFieldName}"" does not have an argument called ""{subFieldArgumentName}""");
+				}
+
+				return value.Value.Value;
+			}
+			else
+			{
+				throw new Exception($@"Field ""{subFieldName}"" does not exists on the schema.");
+			}
 		}
 	}
 }
