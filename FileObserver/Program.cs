@@ -20,7 +20,8 @@ namespace FileObserver
 			fileSystemWatcher.IncludeSubdirectories = true;
 
 			// tell the watcher where to look
-			fileSystemWatcher.Path = @"C:\Users\JNungaray\Documents\Visual Studio 2017\Projects\ConsoleApp4\FileObserver\Test\";
+			//fileSystemWatcher.Path = @"C:\Users\JNungaray\Documents\Visual Studio 2017\Projects\ConsoleApp4\FileObserver\Test\";
+			fileSystemWatcher.Path = @"/Users/jonatthu/Documents/Jonatthu/Playground/FileObserver/Test";
 
 			// You must add this line - this allows events to fire.
 			fileSystemWatcher.EnableRaisingEvents = true;
