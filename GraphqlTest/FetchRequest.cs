@@ -9,5 +9,6 @@ namespace GraphqlTest
 		public int First { get; set; }
 		public int Skip { get; set; }
 		public FilterRequest Filter { get; set; }
+		public NamePropertyArguments NamePropertyArguments { get; set; }
 	}
 }

@@ -14,7 +14,7 @@ namespace GraphqlTest
 			Field(x => x.Search, nullable: true);
 
 			Field<ListGraphType<StringGraphType>>()
-				.Name("ids")
+				.Name("Ids")
 				.Resolve(x =>
 				{
 					return x.Source.Ids;

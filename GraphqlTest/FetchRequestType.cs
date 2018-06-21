@@ -10,9 +10,11 @@ namespace GraphqlTest
 		public FetchRequestType()
 		{
 			Field(x => x.First);
+
 			Field(x => x.Skip);
+
 			Field<FilterRequestType>()
-				.Name("filter")
+				.Name("Filter")
 				.Resolve(x => x.Source.Filter);
 		}
     }
