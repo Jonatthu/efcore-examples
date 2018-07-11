@@ -7,7 +7,7 @@ namespace ConsoleApp4
 {
 	public abstract class GenFilterRequest<T>
 	{
-
+		//
 	}
 
 	public abstract class GenResponse<T>
@@ -83,16 +83,10 @@ namespace ConsoleApp4
 		public abstract string SuggestedName(int name);
 	}
 
-
-
-
-
-
 	[System.AttributeUsage(AttributeTargets.Method, Inherited = true, AllowMultiple = true)]
 	sealed class MyCustomMetadataAttribute : Attribute
 	{
 	}
-
 
 	public class Blog
 	{
@@ -110,7 +104,6 @@ namespace ConsoleApp4
 		}
 	}
 
-
 	public partial class Entity
 	{
 		public int? Id { get; set; }
@@ -119,7 +112,6 @@ namespace ConsoleApp4
 		public IEnumerable<int> BlogIds { get; set; }
 		public IEnumerable<Blog> MyBlogs { get; set; }
 	}
-
 
 	public partial class Entity
 	{
