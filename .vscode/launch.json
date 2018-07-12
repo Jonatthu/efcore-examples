@@ -5,47 +5,52 @@
     "version": "0.2.0",
     "configurations": [
         {
-            "name": ".NET Core Launch (console)",
+            "name": "EFTest Run",
             "type": "coreclr",
             "request": "launch",
-            "preLaunchTask": "build",
-            "program": "${workspaceFolder}/bin/Debug/<insert-target-framework-here>/<insert-project-name-here>.dll",
+            "preLaunchTask": "EFTest build",
+            "program": "${workspaceFolder}/EFTest/bin/Debug/netcoreapp2.1/EFTests.dll",
             "args": [],
-            "cwd": "${workspaceFolder}",
+            "cwd": "${workspaceFolder}/EFTest",
             "console": "internalConsole",
             "stopAtEntry": false,
             "internalConsoleOptions": "openOnSessionStart"
         },
         {
-            "name": ".NET Core Launch (web)",
+            "name": "Selectors Run",
             "type": "coreclr",
             "request": "launch",
-            "preLaunchTask": "build",
-            "program": "${workspaceFolder}/bin/Debug/<insert-target-framework-here>/<insert-project-name-here>.dll",
+            "preLaunchTask": "Selectors build",
+            "program": "${workspaceFolder}/Selectors/bin/Debug/netcoreapp2.1/Selectors.dll",
             "args": [],
-            "cwd": "${workspaceFolder}",
+            "cwd": "${workspaceFolder}/Selectors",
+            "console": "internalConsole",
             "stopAtEntry": false,
-            "internalConsoleOptions": "openOnSessionStart",
-            "launchBrowser": {
-                "enabled": true,
-                "args": "${auto-detect-url}",
-                "windows": {
-                    "command": "cmd.exe",
-                    "args": "/C start ${auto-detect-url}"
-                },
-                "osx": {
-                    "command": "open"
-                },
-                "linux": {
-                    "command": "xdg-open"
-                }
-            },
-            "env": {
-                "ASPNETCORE_ENVIRONMENT": "Development"
-            },
-            "sourceFileMap": {
-                "/Views": "${workspaceFolder}/Views"
-            }
+            "internalConsoleOptions": "openOnSessionStart"
+        },
+        {
+            "name": "RequestResponseExtensions Run",
+            "type": "coreclr",
+            "request": "launch",
+            "preLaunchTask": "RequestResponseExtensions build",
+            "program": "${workspaceFolder}/RequestResponseExtensions/bin/Debug/netcoreapp2.1/RequestResponseExtensionss.dll",
+            "args": [],
+            "cwd": "${workspaceFolder}/RequestResponseExtensions",
+            "console": "internalConsole",
+            "stopAtEntry": false,
+            "internalConsoleOptions": "openOnSessionStart"
+        },
+        {
+            "name": "FileObserver Run",
+            "type": "coreclr",
+            "request": "launch",
+            "preLaunchTask": "FileObserver build",
+            "program": "${workspaceFolder}/FileObserver/bin/Debug/netcoreapp2.1/FileObservers.dll",
+            "args": [],
+            "cwd": "${workspaceFolder}/FileObserver",
+            "console": "internalConsole",
+            "stopAtEntry": false,
+            "internalConsoleOptions": "openOnSessionStart"
         },
         {
             "name": ".NET Core Attach",

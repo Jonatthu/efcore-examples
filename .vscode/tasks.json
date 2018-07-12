@@ -1,0 +1,45 @@
+{
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "label": "EFTest build",
+            "command": "dotnet",
+            "type": "process",
+            "args": [
+                "build",
+                "${workspaceFolder}/EFTest/EFTest.csproj"
+            ],
+            "problemMatcher": "$msCompile"
+        },
+        {
+            "label": "Selectors build",
+            "command": "dotnet",
+            "type": "process",
+            "args": [
+                "build",
+                "${workspaceFolder}/Selectors/Selectors.csproj"
+            ],
+            "problemMatcher": "$msCompile"
+        },
+        {
+            "label": "RequestResponseExtensions build",
+            "command": "dotnet",
+            "type": "process",
+            "args": [
+                "build",
+                "${workspaceFolder}/RequestResponseExtensions/RequestResponseExtensions.csproj"
+            ],
+            "problemMatcher": "$msCompile"
+        },
+        {
+            "label": "FileObserver build",
+            "command": "dotnet",
+            "type": "process",
+            "args": [
+                "build",
+                "${workspaceFolder}/FileObserver/FileObserver.csproj"
+            ],
+            "problemMatcher": "$msCompile"
+        },
+    ]
+}
