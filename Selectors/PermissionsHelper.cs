@@ -17,6 +17,7 @@ namespace Selectors
 
         public static class EntityTranslations
         {
+            //TODO: Hello
             public static string Add(Type entity) => $@"{entity.Name}_Add_Translation";
             public static string Edit(Type entity) => $@"{entity.Name}_Edit_Translation";
             public static string Delete(Type entity) => $@"{entity.Name}_Delete_Translation";

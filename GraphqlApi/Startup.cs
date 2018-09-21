@@ -61,6 +61,9 @@ namespace GraphqlApi
 			services.AddGraphQLWebSocket<ChatSchema>();
 
 			services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
+
+
+			//services.AddSingleton<IUserService, MyCustomUserService>();
 		}
 
 		// This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -70,6 +73,11 @@ namespace GraphqlApi
 			{
 				app.UseDeveloperExceptionPage();
 			}
+
+			//app.UseGenTyNETProject();
+
+
+
 
 			app.UseDefaultFiles();
 

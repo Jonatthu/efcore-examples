@@ -17,6 +17,18 @@
             "internalConsoleOptions": "openOnSessionStart"
         },
         {
+            "name": "GraphqlTest Run",
+            "type": "coreclr",
+            "request": "launch",
+            "preLaunchTask": "GraphqlTest build",
+            "program": "${workspaceFolder}/GraphqlTest/bin/Debug/netcoreapp2.1/GraphqlTest.dll",
+            "args": [],
+            "cwd": "${workspaceFolder}/GraphqlTest",
+            "console": "internalConsole",
+            "stopAtEntry": false,
+            "internalConsoleOptions": "openOnSessionStart"
+        },
+        {
             "name": "Selectors Run",
             "type": "coreclr",
             "request": "launch",

@@ -13,6 +13,8 @@ namespace GraphqlTest
 
 			Field(x => x.Skip);
 
+			Field(x => x.TestArray, nullable: true);
+
 			Field<FilterRequestType>()
 				.Name("Filter")
 				.Resolve(x => x.Source.Filter);

@@ -39,15 +39,13 @@ namespace GraphqlTest
 					Droid(
 						Fetch: { 
 							First: 10, 
-							Skip: 12, 
-							Filter: { 
-							}
+							Skip: 12,
+							TestArray: [1 , 2 ,3 ]
 						}
 					) 
 					{
 						Id,
 						Name(IsFullName: true, UseMotherName: true),
-						LastName
 					}
 				}
 			";

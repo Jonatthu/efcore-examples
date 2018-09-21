@@ -11,6 +11,7 @@ namespace GraphqlApi.GraphSchema.GraphTypes
 	{
 		public MessageType()
 		{
+			Field(x => x.Content).Description("");
 			Field(o => o.Content);
 			Field(o => o.SentAt);
 			Field(o => o.Sub, nullable: true);

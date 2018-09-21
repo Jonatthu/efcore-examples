@@ -22,6 +22,16 @@
             "problemMatcher": "$msCompile"
         },
         {
+            "label": "GraphqlTest build",
+            "command": "dotnet",
+            "type": "process",
+            "args": [
+                "build",
+                "${workspaceFolder}/GraphqlTest/GraphqlTest.csproj"
+            ],
+            "problemMatcher": "$msCompile"
+        },
+        {
             "label": "RequestResponseExtensions build",
             "command": "dotnet",
             "type": "process",
